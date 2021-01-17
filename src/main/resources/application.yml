@@ -1,0 +1,7 @@
+project:
+  version: ${version}
+  name: ${name}
+
+logging:
+  level:
+    root: ERROR
