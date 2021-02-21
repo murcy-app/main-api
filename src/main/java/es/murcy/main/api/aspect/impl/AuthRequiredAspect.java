@@ -20,23 +20,22 @@ import java.util.*;
 @Slf4j
 public class AuthRequiredAspect {
 
-    @Around("@annotation(es.murcy.main.api.aspect.AuthRequired)")
-    public Object validateAuth(ProceedingJoinPoint joinPoint) throws Throwable {
-        HttpServletRequest request =
-                ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
+  @Around("@annotation(es.murcy.main.api.aspect.AuthRequired)")
+  public Object validateAuth(ProceedingJoinPoint joinPoint) throws Throwable {
+    HttpServletRequest request =
+            ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
 
-        MethodSignature signature = (MethodSignature) joinPoint.getSignature();
-        Method method = signature.getMethod();
+    MethodSignature signature = (MethodSignature) joinPoint.getSignature();
+    Method method = signature.getMethod();
 
-        Map<String, Object> arguments = AspectUtils.getArgumentMap(joinPoint);
+    Map<String, Object> arguments = AspectUtils.getArgumentMap(joinPoint);
 
-        AuthRequired authRequired = method.getAnnotation(AuthRequired.class);
+    AuthRequired authRequired = method.getAnnotation(AuthRequired.class);
 
-        // TODO: add logic
+    // TODO: add logic
 
-        return joinPoint.proceed();
-    }
-
+    return joinPoint.proceed();
+  }
 
 
 }

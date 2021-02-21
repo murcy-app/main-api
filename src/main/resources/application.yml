@@ -1,3 +1,9 @@
 project:
   version: ${version}
   name: ${name}
+
+springdoc:
+  api-docs:
+    path: /api-docs
+  swagger-ui:
+    path: /docs

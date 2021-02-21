@@ -22,33 +22,33 @@ import static es.murcy.main.api.util.StringUtils.SPACE;
 @Slf4j
 public class LogAspect {
 
-    private final boolean logClassnameAndMethod;
+  private final boolean logClassnameAndMethod;
 
-    public LogAspect(@Value("${feature.log.className-method:false}") final boolean logClassnameAndMethod) {
-        this.logClassnameAndMethod = logClassnameAndMethod;
+  public LogAspect(@Value("${feature.log.className-method:false}") final boolean logClassnameAndMethod) {
+    this.logClassnameAndMethod = logClassnameAndMethod;
+  }
+
+  @Around("execution(public * es.murcy.main.api.rest.*Controller.*(..))")
+  public Object logControllers(ProceedingJoinPoint joinPoint) throws Throwable {
+    HttpServletRequest request =
+            ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
+
+    MethodSignature signature = (MethodSignature) joinPoint.getSignature();
+    String methodName = signature.getName();
+    String classname = signature.getDeclaringTypeName();
+
+    Map<String, Object> arguments = AspectUtils.getArgumentMap(joinPoint);
+
+    StringBuilder logMessage = new StringBuilder();
+
+    if (logClassnameAndMethod) {
+      logMessage.append(classname).append(DOT).append(methodName).append("() ");
     }
+    logMessage.append(request.getMethod()).append(SPACE).append(request.getServletPath());
+    logMessage.append(" with arguments: '").append(arguments).append("'");
 
-    @Around("execution(public * es.murcy.main.api.rest.*Controller.*(..))")
-    public Object logControllers(ProceedingJoinPoint joinPoint) throws Throwable {
-        HttpServletRequest request =
-                ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
+    LOG.info(logMessage.toString());
 
-        MethodSignature signature = (MethodSignature) joinPoint.getSignature();
-        String methodName = signature.getName();
-        String classname = signature.getDeclaringTypeName();
-
-        Map<String, Object> arguments = AspectUtils.getArgumentMap(joinPoint);
-
-        StringBuilder logMessage = new StringBuilder();
-
-        if(logClassnameAndMethod) {
-            logMessage.append(classname).append(DOT).append(methodName).append("() ");
-        }
-        logMessage.append(request.getMethod()).append(SPACE).append(request.getServletPath());
-        logMessage.append(" with arguments: '").append(arguments).append("'");
-
-        LOG.info(logMessage.toString());
-
-        return joinPoint.proceed();
-    }
+    return joinPoint.proceed();
+  }
 }
