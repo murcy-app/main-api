@@ -1,3 +1,7 @@
+server:
+  error:
+    path: /error
+
 spring:
   application:
     name: murcy-main-api
@@ -21,6 +25,6 @@ project:
 
 springdoc:
   api-docs:
-    path: /api-docs
+    path: /docs/api-docs
   swagger-ui:
     path: /docs
