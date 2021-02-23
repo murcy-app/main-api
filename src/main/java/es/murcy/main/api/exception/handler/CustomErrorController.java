@@ -1,6 +1,7 @@
 package es.murcy.main.api.exception.handler;
 
 import es.murcy.main.api.exception.ResponseError;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.error.ErrorAttributeOptions;
 import org.springframework.boot.web.servlet.error.ErrorAttributes;
@@ -15,6 +16,8 @@ import org.springframework.web.context.request.WebRequest;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.Map;
 
 @RestController
@@ -24,12 +27,16 @@ public class CustomErrorController implements ErrorController {
   public static final String PATH = "/error";
 
   private final ErrorAttributes errorAttributes;
-
+  private final DateTimeFormatter dateTimeFormatter;
   private final boolean debug;
 
-  public CustomErrorController(ErrorAttributes errorAttributes, @Value("${debug:true}") boolean debug) {
+  public CustomErrorController(
+          ErrorAttributes errorAttributes,
+          @Value("${feature.error.include-stacktrace:false}") boolean debug,
+          @Qualifier("errorDateTimeFormatter") DateTimeFormatter dateTimeFormatter) {
     Assert.notNull(errorAttributes, "ErrorAttributes must not be null");
     this.errorAttributes = errorAttributes;
+    this.dateTimeFormatter = dateTimeFormatter;
     this.debug = debug;
   }
 
@@ -40,7 +47,7 @@ public class CustomErrorController implements ErrorController {
     return ResponseError.builder()
             .status(response.getStatus())
             .error((String) errorMap.get("error"))
-            .message(errorMap.get("timestamp").toString())
+            .message(dateTimeFormatter.format(((Date) errorMap.get("timestamp")).toInstant()))
             .trace((String) errorMap.get("trace"))
             .build();
   }

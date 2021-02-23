@@ -2,7 +2,7 @@ package es.murcy.main.api.config;
 
 import es.murcy.main.api.config.jwt.JwtAuthenticationEntryPoint;
 import es.murcy.main.api.config.jwt.JwtUserDetailsService;
-import es.murcy.main.api.filter.JwtFilter;
+import es.murcy.main.api.filter.JsonWebTokenFilter;
 import es.murcy.main.api.rest.TokenController;
 import es.murcy.main.api.rest.UserController;
 import lombok.AllArgsConstructor;
@@ -11,6 +11,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -22,9 +23,10 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @Configuration
 @EnableWebSecurity
 @AllArgsConstructor
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
-  private final JwtFilter jwtFilter;
+  private final JsonWebTokenFilter jwtFilter;
   private final JwtUserDetailsService jwtUserDetailsService;
   private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
 
@@ -42,7 +44,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
   @Override
   public AuthenticationManager authenticationManagerBean() throws Exception {
     return super.authenticationManagerBean();
-
   }
 
   @Override

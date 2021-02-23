@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.Instant;
 import java.util.Collections;
+import java.util.Optional;
 
 @Service
 public class UserService {
@@ -52,4 +53,13 @@ public class UserService {
   private void validate(UserRequest userRequest){
 
   }
+
+  public Optional<User> findById(Long id) {
+    return userRepository.findById(id);
+  }
+
+  public Optional<User> findByUserName(String username) {
+    return userRepository.findUserByUsername(username);
+  }
+
 }

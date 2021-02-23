@@ -28,3 +28,7 @@ springdoc:
     path: /docs/api-docs
   swagger-ui:
     path: /docs
+
+security:
+  jwt:
+    secret: test

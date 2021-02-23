@@ -24,10 +24,11 @@ public class JwtUserDetailsService implements UserDetailsService {
     return systemUser.map(user -> new org.springframework.security.core.userdetails.User(
             user.getUsername(),
             user.getPassword(),
-            user.getConfirmed(),
-            false,
-            false,
-            false,
+            //user.getConfirmed(),
+            true,
+            true,
+            true,
+            true,
             new ArrayList<>())
     ).orElse(null);
   }
