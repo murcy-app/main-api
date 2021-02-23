@@ -1,0 +1,41 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.10.xsd">
+    <changeSet id="2021022100" author="Jorge Rambla">
+        <comment>Create user table</comment>
+        <createTable tableName="MURCY_USER">
+            <column autoIncrement="true" name="USER_ID" type="bigint">
+                <constraints primaryKey="true" primaryKeyName="PK_MURCY_USER"/>
+            </column>
+
+            <column name="USERNAME" type="varchar(255)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+
+            <column name="EMAIL" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="PASSWORD" type="varchar(512)">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="USER_ROLES" type="varchar(512)"/>
+
+            <column name="DATE_CREATED" type="TIMESTAMP WITHOUT TIME ZONE" defaultValue="NOW()">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="DATE_UPDATED" type="TIMESTAMP WITHOUT TIME ZONE" defaultValue="NOW()">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="DATE_LAST_LOGIN" type="TIMESTAMP WITHOUT TIME ZONE"/>
+
+            <column name="CONFIRMED" type="boolean" defaultValueBoolean="true"/>
+        </createTable>
+    </changeSet>
+</databaseChangeLog>

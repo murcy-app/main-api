@@ -1,7 +1,34 @@
+server:
+  error:
+    path: /error
+
+spring:
+  application:
+    name: murcy-main-api
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    database-platform: org.hibernate.dialect.PostgreSQL12Dialect
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        connection:
+          characterEncoding: UTF-8
+          charSet: UTF-8
+          useUnicode: true
+  liquibase:
+    change-log: classpath:db.changelog/changelog.xml
+
 project:
   version: ${version}
   name: ${name}
 
-logging:
-  level:
-    root: ERROR
+springdoc:
+  api-docs:
+    path: /docs/api-docs
+  swagger-ui:
+    path: /docs
+
+security:
+  jwt:
+    secret: test

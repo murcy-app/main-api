@@ -1,0 +1,8 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/murcy_main_api
+    username: root
+    password: root
+
+feature:
+  error.include-stacktrace: true

@@ -1,0 +1,17 @@
+version: "3"
+services:
+  postgres:
+    image: postgres:12
+    container_name: "main-api-db"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=root
+      - POSTGRES_PASSWORD=root
+      - POSTGRES_DB=murcy_main_api
+    restart: always
+volumes:
+  postgres-data:
+    driver: local
