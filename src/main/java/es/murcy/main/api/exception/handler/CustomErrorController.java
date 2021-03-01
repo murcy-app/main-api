@@ -1,16 +1,12 @@
 package es.murcy.main.api.exception.handler;
 
-import es.murcy.main.api.exception.ResponseError;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.error.ErrorAttributeOptions;
 import org.springframework.boot.web.servlet.error.ErrorAttributes;
 import org.springframework.boot.web.servlet.error.ErrorController;
 import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.context.request.RequestAttributes;
-import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.context.request.ServletWebRequest;
 import org.springframework.web.context.request.WebRequest;
 
@@ -19,6 +15,9 @@ import javax.servlet.http.HttpServletResponse;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.Map;
+
+import es.murcy.main.api.config.properties.LoggingProperties;
+import es.murcy.main.api.exception.ResponseError;
 
 @RestController
 @RequestMapping(value = CustomErrorController.PATH)
@@ -31,13 +30,13 @@ public class CustomErrorController implements ErrorController {
   private final boolean debug;
 
   public CustomErrorController(
-          ErrorAttributes errorAttributes,
-          @Value("${feature.error.include-stacktrace:false}") boolean debug,
-          @Qualifier("errorDateTimeFormatter") DateTimeFormatter dateTimeFormatter) {
+      ErrorAttributes errorAttributes,
+      LoggingProperties loggingProperties,
+      @Qualifier("errorDateTimeFormatter") DateTimeFormatter dateTimeFormatter) {
     Assert.notNull(errorAttributes, "ErrorAttributes must not be null");
     this.errorAttributes = errorAttributes;
     this.dateTimeFormatter = dateTimeFormatter;
-    this.debug = debug;
+    this.debug = loggingProperties.getErrorResponse().isIncludeStacktrace();
   }
 
   @RequestMapping()
@@ -45,11 +44,11 @@ public class CustomErrorController implements ErrorController {
     Map<String, Object> errorMap = getErrorAttributes(request, debug);
 
     return ResponseError.builder()
-            .status(response.getStatus())
-            .error((String) errorMap.get("error"))
-            .message(dateTimeFormatter.format(((Date) errorMap.get("timestamp")).toInstant()))
-            .trace((String) errorMap.get("trace"))
-            .build();
+        .status(response.getStatus())
+        .error((String) errorMap.get("error"))
+        .message(dateTimeFormatter.format(((Date) errorMap.get("timestamp")).toInstant()))
+        .trace((String) errorMap.get("trace"))
+        .build();
   }
 
   @Override

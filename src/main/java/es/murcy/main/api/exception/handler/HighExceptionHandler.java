@@ -1,11 +1,8 @@
 package es.murcy.main.api.exception.handler;
 
-import es.murcy.main.api.exception.ResponseError;
-import es.murcy.main.api.exception.exceptions.UnauthorizedException;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
@@ -16,7 +13,11 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import java.time.Instant;
 import java.time.format.DateTimeFormatter;
 
-import static es.murcy.main.api.exception.constants.ErrorMessages.*;
+import static es.murcy.main.api.exception.constants.ErrorMessages.UNAUTHORIZED_ERROR;
+
+import es.murcy.main.api.config.properties.LoggingProperties;
+import es.murcy.main.api.exception.ResponseError;
+import es.murcy.main.api.exception.exceptions.UnauthorizedException;
 
 @RestControllerAdvice
 @Slf4j
@@ -27,9 +28,9 @@ public class HighExceptionHandler {
   private final DateTimeFormatter dateTimeFormatter;
 
   public HighExceptionHandler(
-          @Value("${feature.error.include-stacktrace:false}") boolean debug,
+          LoggingProperties loggingProperties,
           @Qualifier("errorDateTimeFormatter") DateTimeFormatter dateTimeFormatter) {
-    this.debug = debug;
+    this.debug = loggingProperties.getErrorResponse().isIncludeStacktrace();
     this.dateTimeFormatter = dateTimeFormatter;
   }
 

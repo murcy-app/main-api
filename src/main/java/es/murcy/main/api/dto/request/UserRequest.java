@@ -1,10 +1,13 @@
 package es.murcy.main.api.dto.request;
 
-import es.murcy.main.api.domain.User;
-import lombok.*;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import javax.validation.constraints.Email;
 import java.util.Set;
+
+import es.murcy.main.api.domain.User;
 
 @Data
 @ToString(exclude = {"password"})

@@ -1,10 +1,5 @@
 package es.murcy.main.api.config;
 
-import es.murcy.main.api.config.jwt.JwtAuthenticationEntryPoint;
-import es.murcy.main.api.config.jwt.JwtUserDetailsService;
-import es.murcy.main.api.filter.JsonWebTokenFilter;
-import es.murcy.main.api.rest.TokenController;
-import es.murcy.main.api.rest.UserController;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -20,51 +15,57 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import es.murcy.main.api.config.jwt.JwtAuthenticationEntryPoint;
+import es.murcy.main.api.config.jwt.JwtUserDetailsService;
+import es.murcy.main.api.filter.JsonWebTokenFilter;
+import es.murcy.main.api.rest.TokenController;
+import es.murcy.main.api.rest.UserController;
+
 @Configuration
 @EnableWebSecurity
 @AllArgsConstructor
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
-  private final JsonWebTokenFilter jwtFilter;
-  private final JwtUserDetailsService jwtUserDetailsService;
-  private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
+    private final JsonWebTokenFilter jwtFilter;
+    private final JwtUserDetailsService jwtUserDetailsService;
+    private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
 
-  @Autowired
-  public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-    auth.userDetailsService(jwtUserDetailsService).passwordEncoder(passwordEncoder());
-  }
+    @Autowired
+    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+        auth.userDetailsService(jwtUserDetailsService).passwordEncoder(passwordEncoder());
+    }
 
-  @Bean
-  public PasswordEncoder passwordEncoder() {
-    return new BCryptPasswordEncoder();
-  }
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
 
-  @Bean
-  @Override
-  public AuthenticationManager authenticationManagerBean() throws Exception {
-    return super.authenticationManagerBean();
-  }
+    @Bean
+    @Override
+    public AuthenticationManager authenticationManagerBean() throws Exception {
+        return super.authenticationManagerBean();
+    }
 
-  @Override
-  protected void configure(HttpSecurity httpSecurity) throws Exception {
+    @Override
+    protected void configure(HttpSecurity httpSecurity) throws Exception {
 
-    httpSecurity.authorizeRequests()
-            .antMatchers("/swagger-ui/**").permitAll()
-            .antMatchers("/docs/**").permitAll()
-            .antMatchers(UserController.PATH).permitAll()
-            .antMatchers(UserController.PATH.concat("/login")).permitAll()
-            .antMatchers(TokenController.PATH.concat("/confirm/user/**")).permitAll()
-            .anyRequest().authenticated();
+        httpSecurity.authorizeRequests()
+                .antMatchers("/swagger-ui/**").permitAll()
+                .antMatchers("/docs/**").permitAll()
+                .antMatchers(UserController.PATH).permitAll()
+                .antMatchers(UserController.PATH.concat("/login")).permitAll()
+                .antMatchers(TokenController.PATH.concat("/confirm/user/**")).permitAll()
+                .anyRequest().authenticated();
 
-    httpSecurity.exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint);
-    httpSecurity.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
+        httpSecurity.exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint);
+        httpSecurity.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
 
-    httpSecurity.cors();
-    httpSecurity.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-    httpSecurity.httpBasic();
-    httpSecurity.csrf().disable();
-    httpSecurity.headers().frameOptions().sameOrigin();
-  }
+        httpSecurity.cors();
+        httpSecurity.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+        httpSecurity.httpBasic();
+        httpSecurity.csrf().disable();
+        httpSecurity.headers().frameOptions().sameOrigin();
+    }
 
 }

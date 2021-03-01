@@ -1,7 +1,5 @@
 package es.murcy.main.api.aspect.impl;
 
-import es.murcy.main.api.aspect.AuthRequired;
-import es.murcy.main.api.util.AspectUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -13,7 +11,10 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import java.lang.reflect.Method;
-import java.util.*;
+import java.util.Map;
+
+import es.murcy.main.api.aspect.AuthRequired;
+import es.murcy.main.api.util.AspectUtils;
 
 @Aspect
 @Component
@@ -23,7 +24,7 @@ public class AuthRequiredAspect {
   @Around("@annotation(es.murcy.main.api.aspect.AuthRequired)")
   public Object validateAuth(ProceedingJoinPoint joinPoint) throws Throwable {
     HttpServletRequest request =
-            ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
+        ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
 
     MethodSignature signature = (MethodSignature) joinPoint.getSignature();
     Method method = signature.getMethod();

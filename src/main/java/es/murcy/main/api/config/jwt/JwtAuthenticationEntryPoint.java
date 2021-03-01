@@ -23,31 +23,31 @@ import static es.murcy.main.api.exception.constants.ErrorMessages.UNAUTHORIZED_M
 @Component
 public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint, Serializable {
 
-    private static final long serialVersionUID = 778200216891297715L;
+  private static final long serialVersionUID = 778200216891297715L;
 
-    private final boolean debug;
-    private final DateTimeFormatter dateTimeFormatter;
+  private final boolean debug;
+  private final DateTimeFormatter dateTimeFormatter;
 
-    public JwtAuthenticationEntryPoint(
-            @Value("${feature.error.include-stacktrace:false}") boolean debug,
-            @Qualifier("errorDateTimeFormatter") DateTimeFormatter dateTimeFormatter) {
-        this.debug = debug;
-        this.dateTimeFormatter = dateTimeFormatter;
-    }
+  public JwtAuthenticationEntryPoint(
+          @Value("${feature.error.include-stacktrace:false}") boolean debug,
+          @Qualifier("errorDateTimeFormatter") DateTimeFormatter dateTimeFormatter) {
+    this.debug = debug;
+    this.dateTimeFormatter = dateTimeFormatter;
+  }
 
-    @Override
-    public void commence(HttpServletRequest request, HttpServletResponse response,
-                         AuthenticationException authException) throws IOException {
-        ResponseError responseError = ResponseError.builder()
-                .status(HttpStatus.UNAUTHORIZED.value())
-                .error(UNAUTHORIZED_ERROR)
-                .message(UNAUTHORIZED_MESSAGE)
-                .timeStamp(dateTimeFormatter.format(Instant.now()))
-                .trace(debug ? "JwtAuthenticationEntryPoint#commence" : null)
-                .build();
+  @Override
+  public void commence(HttpServletRequest request, HttpServletResponse response,
+                       AuthenticationException authException) throws IOException {
+    ResponseError responseError = ResponseError.builder()
+            .status(HttpStatus.UNAUTHORIZED.value())
+            .error(UNAUTHORIZED_ERROR)
+            .message(UNAUTHORIZED_MESSAGE)
+            .timeStamp(dateTimeFormatter.format(Instant.now()))
+            .trace(debug ? "JwtAuthenticationEntryPoint#commence" : null)
+            .build();
 
-        response.setContentType(MediaType.APPLICATION_JSON_VALUE);
-        response.getWriter().write(new ObjectMapper().writeValueAsString(responseError));
-        response.getWriter().flush();
-    }
+    response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+    response.getWriter().write(new ObjectMapper().writeValueAsString(responseError));
+    response.getWriter().flush();
+  }
 }

@@ -22,14 +22,14 @@ public class JwtUserDetailsService implements UserDetailsService {
     Optional<User> systemUser = userRepository.findUserByUsername(username);
 
     return systemUser.map(user -> new org.springframework.security.core.userdetails.User(
-            user.getUsername(),
-            user.getPassword(),
-            //user.getConfirmed(),
-            true,
-            true,
-            true,
-            true,
-            new ArrayList<>())
+        user.getUsername(),
+        user.getPassword(),
+        //user.getConfirmed(),
+        true,
+        true,
+        true,
+        true,
+        new ArrayList<>())
     ).orElse(null);
   }
 }

@@ -1,6 +1,5 @@
 package es.murcy.main.api.aspect.impl;
 
-import es.murcy.main.api.util.AspectUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -17,6 +16,9 @@ import java.util.Map;
 import static es.murcy.main.api.util.StringUtils.DOT;
 import static es.murcy.main.api.util.StringUtils.SPACE;
 
+import es.murcy.main.api.config.properties.LoggingProperties;
+import es.murcy.main.api.util.AspectUtils;
+
 @Aspect
 @Component
 @Slf4j
@@ -24,14 +26,13 @@ public class LogAspect {
 
   private final boolean logClassnameAndMethod;
 
-  public LogAspect(@Value("${feature.log.className-method:false}") final boolean logClassnameAndMethod) {
-    this.logClassnameAndMethod = logClassnameAndMethod;
+  public LogAspect(LoggingProperties loggingProperties) {
+    this.logClassnameAndMethod = loggingProperties.getController().isClassnameMethod();
   }
 
   @Around("execution(public * es.murcy.main.api.rest.*Controller.*(..))")
   public Object logControllers(ProceedingJoinPoint joinPoint) throws Throwable {
-    HttpServletRequest request =
-            ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
+    HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
 
     MethodSignature signature = (MethodSignature) joinPoint.getSignature();
     String methodName = signature.getName();

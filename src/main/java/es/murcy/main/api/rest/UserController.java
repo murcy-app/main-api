@@ -1,11 +1,5 @@
 package es.murcy.main.api.rest;
 
-import es.murcy.main.api.aspect.AuthRequired;
-import es.murcy.main.api.config.jwt.JsonWebTokenService;
-import es.murcy.main.api.config.jwt.JwtUserDetailsService;
-import es.murcy.main.api.domain.User;
-import es.murcy.main.api.dto.request.UserRequest;
-import es.murcy.main.api.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -14,6 +8,13 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
+
+import es.murcy.main.api.aspect.AuthRequired;
+import es.murcy.main.api.config.jwt.JsonWebTokenService;
+import es.murcy.main.api.config.jwt.JwtUserDetailsService;
+import es.murcy.main.api.domain.User;
+import es.murcy.main.api.dto.request.UserRequest;
+import es.murcy.main.api.service.UserService;
 
 @RequestMapping(path = UserController.PATH)
 @Tag(name = "User")

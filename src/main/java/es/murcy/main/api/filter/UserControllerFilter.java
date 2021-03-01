@@ -1,12 +1,5 @@
 package es.murcy.main.api.filter;
 
-import es.murcy.main.api.config.jwt.JsonWebTokenService;
-import es.murcy.main.api.domain.User;
-import es.murcy.main.api.exception.exceptions.ForbiddenException;
-import es.murcy.main.api.exception.exceptions.ItemNotFoundException;
-import es.murcy.main.api.exception.exceptions.UnauthorizedException;
-import es.murcy.main.api.rest.UserController;
-import es.murcy.main.api.service.UserService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.Ordered;
@@ -22,6 +15,14 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import es.murcy.main.api.config.jwt.JsonWebTokenService;
+import es.murcy.main.api.domain.User;
+import es.murcy.main.api.exception.exceptions.ForbiddenException;
+import es.murcy.main.api.exception.exceptions.ItemNotFoundException;
+import es.murcy.main.api.exception.exceptions.UnauthorizedException;
+import es.murcy.main.api.rest.UserController;
+import es.murcy.main.api.service.UserService;
 
 @Component
 @Slf4j

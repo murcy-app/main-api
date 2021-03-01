@@ -1,15 +1,15 @@
 package es.murcy.main.api.service;
 
-import es.murcy.main.api.domain.User;
-import es.murcy.main.api.dto.request.UserRequest;
-import es.murcy.main.api.repository.UserRepository;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
 import java.util.Collections;
 import java.util.Optional;
+
+import es.murcy.main.api.domain.User;
+import es.murcy.main.api.dto.request.UserRequest;
+import es.murcy.main.api.repository.UserRepository;
 
 @Service
 public class UserService {

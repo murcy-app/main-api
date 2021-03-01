@@ -1,0 +1,64 @@
+{
+  "properties": [
+    {
+      "name": "project.version",
+      "type": "java.lang.String",
+      "description": "Defines current project version.",
+      "sourceType": "es.murcy.main.api.config.properties.ProjectProperties"
+    },
+    {
+      "name": "project.name",
+      "type": "java.lang.String",
+      "description": "Defines current project name.",
+      "sourceType": "es.murcy.main.api.config.properties.ProjectProperties"
+    },
+    {
+      "name": "project.description",
+      "type": "java.lang.String",
+      "description": "Defines current project description.",
+      "sourceType": "es.murcy.main.api.config.properties.ProjectProperties",
+      "defaultValue": ""
+    },
+    {
+      "name": "security.jwt.secret",
+      "type": "java.lang.String",
+      "description": "Defines the secret token in the <b>Json Web Token</b> authentication system.",
+      "sourceType": "es.murcy.main.api.config.properties.JsonWebTokenProperties"
+    },
+    {
+      "name": "security.jwt.validity.days",
+      "type": "java.lang.Long",
+      "description": "Defines the <b>Json Web Token</b> validity days.",
+      "sourceType": "es.murcy.main.api.config.properties.JsonWebTokenProperties",
+      "defaultValue": 1
+    },
+    {
+      "name": "security.jwt.validity.hours",
+      "type": "java.lang.Long",
+      "description": "Defines the <b>Json Web Token</b> validity hours.",
+      "sourceType": "es.murcy.main.api.config.properties.JsonWebTokenProperties",
+      "defaultValue": 0
+    },
+    {
+      "name": "security.jwt.validity.minutes",
+      "type": "java.lang.Long",
+      "description": "Defines the <b>Json Web Token</b> validity minutes.",
+      "sourceType": "es.murcy.main.api.config.properties.JsonWebTokenProperties",
+      "defaultValue": 0
+    },
+    {
+      "name": "feature.logging.error-response.include-stacktrace",
+      "type": "java.lang.Boolean",
+      "description": "Include stacktrace in error response.",
+      "sourceType": "es.murcy.main.api.config.properties.LoggingProperties",
+      "defaultValue": false
+    },
+    {
+      "name": "feature.logging.controller.classname-method",
+      "type": "java.lang.Boolean",
+      "description": "Include controller handler classname and method names in log message.",
+      "sourceType": "es.murcy.main.api.config.properties.LoggingProperties",
+      "defaultValue": false
+    }
+  ]
+}

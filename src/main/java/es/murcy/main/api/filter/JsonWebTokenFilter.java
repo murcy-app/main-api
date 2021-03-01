@@ -1,8 +1,5 @@
 package es.murcy.main.api.filter;
 
-import es.murcy.main.api.config.jwt.JsonWebTokenService;
-import es.murcy.main.api.config.jwt.JwtUserDetailsService;
-import es.murcy.main.api.exception.exceptions.UnauthorizedException;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.SignatureException;
@@ -24,6 +21,10 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+
+import es.murcy.main.api.config.jwt.JsonWebTokenService;
+import es.murcy.main.api.config.jwt.JwtUserDetailsService;
+import es.murcy.main.api.exception.exceptions.UnauthorizedException;
 
 @Component
 @Order(JsonWebTokenFilter.ORDER)
