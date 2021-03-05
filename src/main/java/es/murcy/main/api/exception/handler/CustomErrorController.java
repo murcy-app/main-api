@@ -1,5 +1,6 @@
 package es.murcy.main.api.exception.handler;
 
+import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.web.error.ErrorAttributeOptions;
 import org.springframework.boot.web.servlet.error.ErrorAttributes;
@@ -40,6 +41,7 @@ public class CustomErrorController implements ErrorController {
   }
 
   @RequestMapping()
+  @Operation(hidden = true)
   ResponseError handleError(HttpServletRequest request, HttpServletResponse response) {
     Map<String, Object> errorMap = getErrorAttributes(request, debug);
 

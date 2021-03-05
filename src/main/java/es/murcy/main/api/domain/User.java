@@ -20,11 +20,16 @@ import es.murcy.main.api.domain.converters.CollectionRolToStringConverter;
 public class User {
 
   public enum Rol {
-    NOT_TRACKED, USER, EDITOR, REVIEWER, ADMINISTRATOR
+    NOT_TRACKED,
+    USER,
+    EDITOR,
+    REVIEWER,
+    ADMINISTRATOR
   }
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @EqualsAndHashCode.Include
   @Column(name = "USER_ID", unique = true, nullable = false)
   private Long id;
 

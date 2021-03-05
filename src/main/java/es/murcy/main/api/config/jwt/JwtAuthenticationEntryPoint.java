@@ -1,6 +1,8 @@
 package es.murcy.main.api.config.jwt;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+
+import es.murcy.main.api.config.properties.LoggingProperties;
 import es.murcy.main.api.exception.ResponseError;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -29,9 +31,9 @@ public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint, Se
   private final DateTimeFormatter dateTimeFormatter;
 
   public JwtAuthenticationEntryPoint(
-          @Value("${feature.error.include-stacktrace:false}") boolean debug,
+          LoggingProperties loggingProperties,
           @Qualifier("errorDateTimeFormatter") DateTimeFormatter dateTimeFormatter) {
-    this.debug = debug;
+    this.debug = loggingProperties.getErrorResponse().isIncludeStacktrace();
     this.dateTimeFormatter = dateTimeFormatter;
   }
 
