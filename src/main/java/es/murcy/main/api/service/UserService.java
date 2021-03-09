@@ -1,31 +1,37 @@
 package es.murcy.main.api.service;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 import es.murcy.main.api.domain.User;
 import es.murcy.main.api.dto.request.UserRequest;
 import es.murcy.main.api.repository.UserRepository;
+import es.murcy.main.api.service.validators.impl.UserValidator;
 
 @Service
 public class UserService {
 
   private final PasswordEncoder passwordEncoder;
-
   private final UserRepository userRepository;
+  private final UserValidator validator;
 
   public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
     this.userRepository = userRepository;
     this.passwordEncoder = passwordEncoder;
+
+    this.validator = new UserValidator(userRepository);
   }
 
   public User createEntity(final UserRequest userRequest, final User.Rol maxRol) {
 
-    validate(userRequest);
+    validator.validateCreate(userRequest);
 
     final User user = new User();
 
@@ -47,11 +53,8 @@ public class UserService {
     } else {
       user.setRoles(Collections.singleton(User.Rol.NOT_TRACKED));
       user.setConfirmed(Boolean.FALSE);
+      userRequest.setSendMail(false);
     }
-  }
-
-  private void validate(UserRequest userRequest){
-
   }
 
   public Optional<User> findById(Long id) {

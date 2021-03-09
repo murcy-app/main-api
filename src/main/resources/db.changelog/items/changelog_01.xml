@@ -1,0 +1,33 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.10.xsd">
+    <!-- YEAR MONTH DAY {2} sequence -->
+    <changeSet id="2021030500" author="Jorge Rambla">
+        <comment>Create user table</comment>
+        <createTable tableName="MURCY_TOKEN">
+            <column autoIncrement="true" name="TOKEN_ID" type="bigint">
+                <constraints primaryKey="true" primaryKeyName="PK_MURCY_TOKEN"/>
+            </column>
+
+            <column name="VALUE" type="varchar(255)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+
+            <column name="CLASSNAME" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="DATE_EXPIRE" type="TIMESTAMP WITHOUT TIME ZONE" defaultValue="NOW()">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="OWNER_ID" type="bigint">
+                <constraints nullable="false" foreignKeyName="FK_TOKEN_USER" referencedTableName="MURCY_USER"
+                             referencedColumnNames="USER_ID"/>
+            </column>
+        </createTable>
+    </changeSet>
+</databaseChangeLog>

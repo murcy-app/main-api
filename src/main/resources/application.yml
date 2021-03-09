@@ -29,6 +29,7 @@ springdoc:
     path: /docs/api-docs
   swagger-ui:
     path: /docs
+    filter: true
 
 security:
   jwt:

@@ -12,11 +12,14 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import java.time.Instant;
 import java.time.format.DateTimeFormatter;
+import java.util.stream.Collectors;
 
+import static es.murcy.main.api.exception.constants.ErrorMessages.BAD_REQUEST_MESSAGE;
 import static es.murcy.main.api.exception.constants.ErrorMessages.UNAUTHORIZED_ERROR;
 
 import es.murcy.main.api.config.properties.LoggingProperties;
 import es.murcy.main.api.exception.ResponseError;
+import es.murcy.main.api.exception.exceptions.ModelValidationException;
 import es.murcy.main.api.exception.exceptions.UnauthorizedException;
 
 @RestControllerAdvice
@@ -46,4 +49,20 @@ public class HighExceptionHandler {
             .build();
   }
 
+  @ExceptionHandler(ModelValidationException.class)
+  @ResponseStatus(HttpStatus.BAD_REQUEST)
+  private ResponseError handle(ModelValidationException modelValidationException) {
+    String message = modelValidationException.getErrors()
+        .entrySet().stream()
+        .map(entry -> String.format(entry.getValue(), entry.getKey()))
+        .collect(Collectors.joining(", "));
+
+    return ResponseError.builder()
+        .status(HttpStatus.BAD_REQUEST.value())
+        .error(BAD_REQUEST_MESSAGE)
+        .message(message)
+        .timeStamp(dateTimeFormatter.format(Instant.now()))
+        .trace(debug ? ExceptionUtils.getStackTrace(modelValidationException) : null)
+        .build();
+  }
 }

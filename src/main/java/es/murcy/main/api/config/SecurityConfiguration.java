@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -53,9 +54,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         httpSecurity.authorizeRequests()
                 .antMatchers("/swagger-ui/**").permitAll()
                 .antMatchers("/docs/**").permitAll()
-                .antMatchers(UserController.PATH).permitAll()
-                .antMatchers(UserController.PATH.concat("/login")).permitAll()
-                .antMatchers(TokenController.PATH.concat("/confirm/user/**")).permitAll()
+                .antMatchers(HttpMethod.POST, UserController.PATH).permitAll()
+                .antMatchers(HttpMethod.POST,UserController.PATH.concat("/login")).permitAll()
+                .antMatchers(HttpMethod.POST, TokenController.PATH.concat("/confirm/user/**")).permitAll()
                 .anyRequest().authenticated();
 
         httpSecurity.exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint);

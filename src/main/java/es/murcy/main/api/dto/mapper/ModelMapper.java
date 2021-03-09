@@ -7,7 +7,7 @@ import java.util.concurrent.TimeUnit;
 
 import es.murcy.main.api.config.properties.JsonWebTokenProperties;
 import es.murcy.main.api.domain.User;
-import es.murcy.main.api.dto.TokenDto;
+import es.murcy.main.api.dto.JsonWebTokenDto;
 import es.murcy.main.api.dto.UserDto;
 
 @Service
@@ -16,7 +16,12 @@ public class ModelMapper {
 
   private final JsonWebTokenProperties jsonWebTokenProperties;
 
-  private UserDto convertToDto(final User user) {
+  /**
+   * Convert incoming {@link User} into his matching DTO {@link UserDto}
+   * @param user Object to transform
+   * @return the entity as {@link UserDto}
+   */
+  public UserDto convertToDto(final User user) {
     return UserDto.builder()
         .id(user.getId())
         .username(user.getUsername())
@@ -25,12 +30,18 @@ public class ModelMapper {
         .updatedTime(user.getUpdatedTime()).build();
   }
 
-  private TokenDto convertToDto() {
-    return TokenDto.builder()
-        .timeToExpire(calcTokenValidity(jsonWebTokenProperties.getValidity())).build();
+  /**
+   * Builds json web token response DTO {@link JsonWebTokenDto} with incoming value
+   * @param jsonWebTokenValue {@link String} value of the token
+   * @return the build DTO as {@link JsonWebTokenDto}
+   */
+  public JsonWebTokenDto buildJsonWebToken(String jsonWebTokenValue) {
+    return JsonWebTokenDto.builder()
+        .value(jsonWebTokenValue)
+        .timeToExpire(calculateTokenValidity(jsonWebTokenProperties.getValidity())).build();
   }
 
-  private Long calcTokenValidity(final JsonWebTokenProperties.Validity validity) {
+  private Long calculateTokenValidity(final JsonWebTokenProperties.Validity validity) {
     long millis = TimeUnit.MINUTES.toMillis(validity.getMinutes());
     millis += TimeUnit.HOURS.toMillis(validity.getHours());
     millis += TimeUnit.DAYS.toMillis(validity.getDays());

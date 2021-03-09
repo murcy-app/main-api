@@ -11,7 +11,6 @@ import java.util.Set;
 
 import es.murcy.main.api.domain.User;
 
-@JsonInclude(JsonInclude.Include.NON_ABSENT)
 @JsonPropertyOrder({"id, username, email, roles, createdTime, updatedTime"})
 @Data
 @Builder
@@ -25,9 +24,9 @@ public class UserDto {
 
   private Set<User.Rol> roles;
 
-  @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
+  @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "UTC")
   private Instant createdTime;
 
-  @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
+  @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "UTC")
   private Instant updatedTime;
 }

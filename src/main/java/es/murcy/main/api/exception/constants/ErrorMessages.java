@@ -18,5 +18,8 @@ public class ErrorMessages {
   public static final String FORBIDDEN_ERROR = "Forbidden";
   public static final String FORBIDDEN_MESSAGE = "User has not access to this content";
 
+  public static final String BAD_REQUEST_ERROR = "Forbidden";
+  public static final String BAD_REQUEST_MESSAGE = "Request body is not valid";
+
 
 }
