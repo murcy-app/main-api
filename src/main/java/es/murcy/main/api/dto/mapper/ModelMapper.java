@@ -25,6 +25,7 @@ public class ModelMapper {
     return UserDto.builder()
         .id(user.getId())
         .username(user.getUsername())
+        .email(user.getEmail())
         .roles(user.getRoles())
         .createdTime(user.getCreatedTime())
         .updatedTime(user.getUpdatedTime()).build();

@@ -1,4 +1,4 @@
-package es.murcy.main.api.rest;
+package es.murcy.main.api.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
@@ -49,7 +49,6 @@ public class UserController {
 
   @GetMapping("/info")
   @ResponseStatus(HttpStatus.NOT_IMPLEMENTED)
-  @AuthRequired(minRol = "test")
   @Operation(
           summary = "Get current user data",
           security = @SecurityRequirement(name = "bearerAuth")
@@ -60,7 +59,6 @@ public class UserController {
 
   @GetMapping("/info/{id}")
   @ResponseStatus(HttpStatus.NOT_IMPLEMENTED)
-  @AuthRequired
   @Operation(
           summary = "Get user data by identifier",
           security = @SecurityRequirement(name = "bearerAuth")
@@ -71,7 +69,6 @@ public class UserController {
 
   @PutMapping("/info")
   @ResponseStatus(HttpStatus.NOT_IMPLEMENTED)
-  @AuthRequired
   @Operation(
           summary = "Update current user data",
           security = @SecurityRequirement(name = "bearerAuth")
@@ -82,7 +79,6 @@ public class UserController {
 
   @PutMapping("/info/{id}")
   @ResponseStatus(HttpStatus.NOT_IMPLEMENTED)
-  @AuthRequired
   @Operation(
           summary = "Update user data by identifier",
           security = @SecurityRequirement(name = "bearerAuth")

@@ -1,4 +1,4 @@
-package es.murcy.main.api.rest;
+package es.murcy.main.api.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;

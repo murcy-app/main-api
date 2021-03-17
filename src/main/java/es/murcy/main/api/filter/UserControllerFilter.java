@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
+import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 import org.springframework.web.servlet.HandlerExceptionResolver;
@@ -21,7 +22,7 @@ import es.murcy.main.api.domain.User;
 import es.murcy.main.api.exception.exceptions.ForbiddenException;
 import es.murcy.main.api.exception.exceptions.ItemNotFoundException;
 import es.murcy.main.api.exception.exceptions.UnauthorizedException;
-import es.murcy.main.api.rest.UserController;
+import es.murcy.main.api.controller.UserController;
 import es.murcy.main.api.service.UserService;
 
 @Component
@@ -37,7 +38,7 @@ public class UserControllerFilter extends OncePerRequestFilter {
   private final HandlerExceptionResolver handlerExceptionResolver;
 
   @Override
-  protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws IOException, ServletException {
+  protected void doFilterInternal(HttpServletRequest request, @NonNull HttpServletResponse response, @NonNull FilterChain filterChain) throws IOException, ServletException {
     final String authorization = request.getHeader("Authorization");
     if (authorization != null) {
       try {

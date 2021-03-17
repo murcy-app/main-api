@@ -19,8 +19,8 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import es.murcy.main.api.config.jwt.JwtAuthenticationEntryPoint;
 import es.murcy.main.api.config.jwt.JwtUserDetailsService;
 import es.murcy.main.api.filter.JsonWebTokenFilter;
-import es.murcy.main.api.rest.TokenController;
-import es.murcy.main.api.rest.UserController;
+import es.murcy.main.api.controller.TokenController;
+import es.murcy.main.api.controller.UserController;
 
 @Configuration
 @EnableWebSecurity

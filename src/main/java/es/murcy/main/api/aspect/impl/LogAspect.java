@@ -30,7 +30,7 @@ public class LogAspect {
     this.logClassnameAndMethod = loggingProperties.getController().isClassnameMethod();
   }
 
-  @Around("execution(public * es.murcy.main.api.rest.*Controller.*(..))")
+  @Around("execution(public * es.murcy.main.api.controller.*Controller.*(..))")
   public Object logControllers(ProceedingJoinPoint joinPoint) throws Throwable {
     HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
 

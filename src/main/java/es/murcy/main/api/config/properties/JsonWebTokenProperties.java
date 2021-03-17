@@ -1,5 +1,7 @@
 package es.murcy.main.api.config.properties;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -28,6 +30,7 @@ public class JsonWebTokenProperties {
   private String secret;
 
   @NoArgsConstructor
+  @AllArgsConstructor
   @Data
   public static class Validity {
 

@@ -13,9 +13,10 @@ import es.murcy.main.api.dto.request.UserRequest;
 import es.murcy.main.api.exception.exceptions.ModelValidationException;
 import es.murcy.main.api.repository.UserRepository;
 import es.murcy.main.api.service.validators.ValidateCreate;
+import es.murcy.main.api.service.validators.ValidateUpdate;
 
 @AllArgsConstructor
-public class UserValidator implements ValidateCreate<UserRequest> {
+public class UserValidator implements ValidateCreate<UserRequest>, ValidateUpdate<UserRequest> {
 
   public static final List<String> NOT_VALID_USERNAMES =
       Arrays.asList("admin", "administrator", "root", "owner");
@@ -26,8 +27,8 @@ public class UserValidator implements ValidateCreate<UserRequest> {
   public void validateCreate(UserRequest entity) {
     Map<String, String> errors = new HashMap<>();
 
-    validateUsername(entity.getUsername(), errors);
-    validateEmail(entity.getEmail(), errors);
+    validateUsername(entity.getUsername(), errors, true);
+    validateEmail(entity.getEmail(), errors, true);
     validatePassword(entity.getPassword(), errors);
 
     if(!errors.isEmpty()) {
@@ -35,10 +36,23 @@ public class UserValidator implements ValidateCreate<UserRequest> {
     }
   }
 
-  private void validateUsername(final String username, final Map<String, String> errors) {
+  @Override
+  public void validateUpdate(UserRequest entity) {
+    Map<String, String> errors = new HashMap<>();
+
+    validateUsername(entity.getUsername(), errors, false);
+    validateEmail(entity.getEmail(), errors, false);
+    validatePassword(entity.getPassword(), errors);
+
+    if(!errors.isEmpty()) {
+      throw new ModelValidationException(errors);
+    }
+  }
+
+  private void validateUsername(final String username, final Map<String, String> errors, final boolean evaluateEmpty) {
     final String fieldName = "username";
 
-    if(StringUtils.isEmpty(username)) {
+    if(StringUtils.isEmpty(username) && evaluateEmpty) {
       errors.put(fieldName, PROPERTY_IS_EMPTY);
       return;
     }
@@ -53,10 +67,10 @@ public class UserValidator implements ValidateCreate<UserRequest> {
     }
   }
 
-  private void validateEmail(final String email, final Map<String, String> errors) {
+  private void validateEmail(final String email, final Map<String, String> errors, final boolean evaluateEmpty) {
     final String fieldName = "email";
 
-    if(StringUtils.isEmpty(email)) {
+    if(StringUtils.isEmpty(email) && evaluateEmpty) {
       errors.put(fieldName, PROPERTY_IS_EMPTY);
       return;
     }
