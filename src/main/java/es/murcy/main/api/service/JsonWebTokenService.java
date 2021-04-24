@@ -1,4 +1,4 @@
-package es.murcy.main.api.config.jwt;
+package es.murcy.main.api.service;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;

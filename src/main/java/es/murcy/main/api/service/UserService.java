@@ -1,5 +1,8 @@
 package es.murcy.main.api.service;
 
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -7,24 +10,25 @@ import java.time.Instant;
 import java.util.Collections;
 import java.util.Optional;
 
+import es.murcy.main.api.config.jwt.JwtUserDetailsService;
 import es.murcy.main.api.domain.User;
+import es.murcy.main.api.dto.request.UserLoginRequest;
 import es.murcy.main.api.dto.request.UserRequest;
+import es.murcy.main.api.exception.exceptions.ForbiddenException;
 import es.murcy.main.api.repository.UserRepository;
 import es.murcy.main.api.service.validators.impl.UserValidator;
 
 @Service
+@RequiredArgsConstructor
 public class UserService {
 
   private final PasswordEncoder passwordEncoder;
   private final UserRepository userRepository;
+
+  @Qualifier("userValidator")
   private final UserValidator validator;
-
-  public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
-    this.userRepository = userRepository;
-    this.passwordEncoder = passwordEncoder;
-
-    this.validator = new UserValidator(userRepository);
-  }
+  private final JwtUserDetailsService jwtUserDetailsService;
+  private final JsonWebTokenService jsonWebTokenService;
 
   public User createEntity(final UserRequest userRequest, final User.Rol maxRol) {
 
@@ -41,6 +45,18 @@ public class UserService {
     setUsersAuthProperties(userRequest, user, maxRol);
 
     return userRepository.save(user);
+  }
+
+  public String authenticateUser(final UserLoginRequest request) {
+    User user = userRepository.findUserByUsername(request.getUser()).orElseThrow(ForbiddenException::new);
+
+    if(user.getConfirmed()) {
+      throw new ForbiddenException();
+    }
+
+    final UserDetails userDetails = jwtUserDetailsService.loadUserByUsername(request.getUser());
+
+    return jsonWebTokenService.generateToken(userDetails);
   }
 
   private void setUsersAuthProperties(final UserRequest userRequest, final User user, final User.Rol maxRol) {

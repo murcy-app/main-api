@@ -22,7 +22,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-import es.murcy.main.api.config.jwt.JsonWebTokenService;
+import es.murcy.main.api.service.JsonWebTokenService;
 import es.murcy.main.api.config.jwt.JwtUserDetailsService;
 import es.murcy.main.api.exception.exceptions.UnauthorizedException;
 
