@@ -17,7 +17,7 @@ import java.io.IOException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import es.murcy.main.api.config.jwt.JsonWebTokenService;
+import es.murcy.main.api.service.JsonWebTokenService;
 import es.murcy.main.api.domain.User;
 import es.murcy.main.api.exception.exceptions.ForbiddenException;
 import es.murcy.main.api.exception.exceptions.ItemNotFoundException;

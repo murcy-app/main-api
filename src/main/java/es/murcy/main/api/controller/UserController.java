@@ -8,10 +8,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
-import es.murcy.main.api.aspect.AuthRequired;
 import es.murcy.main.api.domain.User;
+import es.murcy.main.api.dto.JsonWebTokenDto;
 import es.murcy.main.api.dto.UserDto;
 import es.murcy.main.api.dto.mapper.ModelMapper;
+import es.murcy.main.api.dto.request.UserLoginRequest;
 import es.murcy.main.api.dto.request.UserRequest;
 import es.murcy.main.api.service.UserService;
 
@@ -39,12 +40,14 @@ public class UserController {
   }
 
   @PostMapping(value = "/login")
-  @ResponseStatus(HttpStatus.NOT_IMPLEMENTED)
+  @ResponseStatus(HttpStatus.OK)
   @Operation(
           summary = "Create a session for a Murcy user"
   )
-  public String login(@RequestParam String test) {
-    return "Not implemented";
+  public JsonWebTokenDto login(@RequestParam UserLoginRequest loginRequest) {
+    return mapper.buildJsonWebToken(
+        userService.authenticateUser(loginRequest)
+    );
   }
 
   @GetMapping("/info")
